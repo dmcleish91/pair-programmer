@@ -1,0 +1,14 @@
+{
+  "name": "dmcleish91-plugins",
+  "description": "Claude Code plugins by dmcleish91",
+  "owner": {
+    "name": "Dwight Mcleish Jr"
+  },
+  "plugins": [
+    {
+      "name": "pair-programmer",
+      "source": ".",
+      "description": "Claude acts as a senior developer pairing with you. It explores the code, suggests approaches and guides debugging, while you write every line."
+    }
+  ]
+}
