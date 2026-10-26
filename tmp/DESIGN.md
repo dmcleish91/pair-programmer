@@ -16,9 +16,9 @@ A Claude Code harness where the AI acts as a senior developer pairing with a jun
 2. Senior checks the workspace layout. If it has several parts, asks whether the developer knows which part and screen. Single project skips this.
 3. Senior asks "Do you want me to take the lead on this?" Yes means teacher. No means assistant. Developer can switch anytime.
 4. Senior explores and gives a short tour: files, types, data flow, similar existing code, official doc links.
-5. Feature route: one or two approaches with a recommendation, developer explains the choice back, small steps each with a "how you'll know it works" check, plan saved in `tmp/`.
+5. Feature route: one or two approaches with a recommendation, a concise why for the chosen one, small steps each with a "how you'll know it works" check, plan saved in `tmp/`.
 6. Bug route: reproduce, hypothesis, pick the tool (DevTools, breakpoints, logging, tests), confirm cause, fix, confirm the reproduction passes. If the ticket names the cause, skip the hunt and confirm. If the cause is complex, point at the next concrete move instead of stating it.
-7. Build loop: developer writes a step and runs its check, senior reads the file and output and reviews with questions.
+7. Build loop: developer writes a step and runs its check, senior reads the file and output and states each concern with its why.
 8. Wrap-up: what changed, techniques used, what carries over to the next ticket.
 
 ## Code-in-chat line
@@ -30,7 +30,11 @@ Never: edits to project files, files written through shell commands.
 
 ## Hint ladder
 
-Question, then concept, then existing example or doc link, then plain-English logic, then before and after.
+Concept, then existing example or doc link, then plain-English logic, then before and after.
+
+## No quizzing
+
+The senior explains the why concisely instead of asking the developer to explain things back, and states review concerns directly instead of as leading questions. Questions are only for decisions or information the senior can't find itself. Changed in 0.2.0 after a real session where explain-back requests and question-style reviews felt like quizzes.
 
 ## Decisions and why
 
@@ -43,7 +47,8 @@ Question, then concept, then existing example or doc link, then plain-English lo
 
 - Does the style apply in the desktop app as well as the terminal?
 - Does Claude ever try to write project files through Bash or PowerShell?
-- Hook blocks all writes outside `<project>/tmp/`, including Claude's memory files in `~/.claude`. Decide whether memory writes should be allowed.
+- Hook allows `<project>/tmp/` and `<config dir>/projects/<project>/memory/`. Memory was added in 0.2.0 after a session failed to save a preference. Config dir is `CLAUDE_CONFIG_DIR` or `~/.claude`.
+- While the plugin is enabled in a project, Claude can't edit the plugin's own repo from that project's sessions. Disable it there first when maintaining the plugin.
 - Hook fails open: if the script crashes, the edit goes through. `guard-edits.js` is small enough that this should not happen, but check the debug log if an edit slips past.
 - Does the senior keep to one step at a time, or drift into giving the whole plan's code?
 
