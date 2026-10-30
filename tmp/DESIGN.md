@@ -36,6 +36,10 @@ Concept, then existing example or doc link, then plain-English logic, then befor
 
 The senior explains the why concisely instead of asking the developer to explain things back, and states review concerns directly instead of as leading questions. Questions are only for decisions or information the senior can't find itself. Changed in 0.2.0 after a real session where explain-back requests and question-style reviews felt like quizzes.
 
+## Step layout
+
+Each step message is laid out for someone switching between chat and their editor: one-line status, numbered actions in order, edits grouped by file with everything that file needs, an existing-code excerpt instead of prose describing code, a check after each state change, a stop at the next checkpoint with no commands past it, the failure path on its own line, and the why last. Inline code only for things the developer types or searches for. Changed in 0.3.0 after a session where a why-first message with bold run-in labels, a `using` requirement split from its file list, and a "don't run this yet" command were hard to follow mid-edit.
+
 ## Decisions and why
 
 - Plugin rather than standalone style + settings hook: hook input doesn't include the active output style, so a standalone hook can't tell when pair mode is on. In a plugin, the style's `force-for-plugin` ties both to the plugin's enabled state.
